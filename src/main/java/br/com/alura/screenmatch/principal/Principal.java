@@ -7,6 +7,8 @@ import br.com.alura.screenmatch.model.Episodio;
 import br.com.alura.screenmatch.service.ConsumoAPI;
 import br.com.alura.screenmatch.service.ConverteDados;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -56,5 +58,22 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
+        System.out.println("A partir de que ano voce deseja ver os episodios?");
+        var ano = sc.nextInt();
+        sc.nextLine();
+
+        LocalDate dataBusca = LocalDate.of(ano,1,1);
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        episodios.stream()
+                .filter(episodio -> episodio.getDataLancamento() != null && episodio.getDataLancamento().isAfter(dataBusca))
+                .forEach(episodio -> {
+                    System.out.printf("""
+                            Temporada: %s
+                            Episodio: %s
+                            Data de Lancamento: %s
+                            %n""", episodio.getTemporada(),episodio.getNumeroEpisodio(),episodio.getDataLancamento().format(formatter));
+                });
     }
 }
