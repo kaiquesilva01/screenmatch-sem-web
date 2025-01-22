@@ -84,5 +84,11 @@ public class Principal {
                             Data de Lancamento: %s
                             %n""", episodio.getTemporada(),episodio.getNumeroEpisodio(),episodio.getDataLancamento().format(formatter));
                 });
+
+        Map<Integer, Double> avaliacaoPorTemporada = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getAvaliacao)));
+        System.out.println(avaliacaoPorTemporada);
     }
 }
